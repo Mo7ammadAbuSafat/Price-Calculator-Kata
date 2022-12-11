@@ -1,4 +1,6 @@
-﻿namespace Price_Calculator_Kata
+﻿using System.Diagnostics.Metrics;
+
+namespace Price_Calculator_Kata
 {
     public class Product
     {
@@ -20,6 +22,21 @@
             }
         }
 
+        private static double _taxPercentage = 0.2;
+        public static double TaxPercentage
+        {
+            get => _taxPercentage;
+            set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentException("Tax percentage cannot be a negative value.");
+                }
+
+                _taxPercentage = value;
+            }
+        }
+
         public Product() { }
 
         public Product(string? name, int UBC, double price)
@@ -32,6 +49,19 @@
         public static double RoundToTwoDecimal(double value)
         {
             return Math.Round(value, 2);
+        }
+
+        public double CalculatePriceWithTax()
+        {
+            double taxAmount = _taxPercentage * _price;
+            double PriceWithTax = _price + taxAmount;
+            return PriceWithTax;
+        }
+
+        public string PriceReport()
+        {
+            double priceWithTax = RoundToTwoDecimal(CalculatePriceWithTax());
+            return $"${Price} before tax and ${priceWithTax} after ${_taxPercentage * 100} % tax.";
         }
 
     }
