@@ -1,16 +1,14 @@
-﻿using System.Diagnostics.Metrics;
-
-namespace Price_Calculator_Kata
+﻿namespace Price_Calculator_Kata
 {
     public class Product
     {
-        public string? Name { get; set; }
-        public int UBC { get; set; }
+        public string Name { get; set; }
+        public int UPC { get; set; }
 
         private double _price;
         public double Price
         {
-            get => RoundToTwoDecimal(_price);
+            get => _price;
             set
             {
                 if (value < 0)
@@ -18,7 +16,7 @@ namespace Price_Calculator_Kata
                     throw new ArgumentException("Price cannot be a negative value.");
                 }
 
-                _price = value;
+                _price = Math.Round(value, 2);
             }
         }
 
@@ -39,28 +37,23 @@ namespace Price_Calculator_Kata
 
         public Product() { }
 
-        public Product(string? name, int UBC, double price)
+        public Product(string? name, int UPC, double price)
         {
             Name = name;
-            this.UBC = UBC;
+            this.UPC = UPC;
             Price = price;
-        }
-
-        public static double RoundToTwoDecimal(double value)
-        {
-            return Math.Round(value, 2);
         }
 
         public double CalculatePriceWithTax()
         {
-            double taxAmount = _taxPercentage * _price;
-            double PriceWithTax = _price + taxAmount;
+            double taxAmount = Math.Round(TaxPercentage * Price, 2);
+            double PriceWithTax = Math.Round(Price + taxAmount,2);
             return PriceWithTax;
         }
 
         public string PriceReport()
         {
-            double priceWithTax = RoundToTwoDecimal(CalculatePriceWithTax());
+            double priceWithTax = CalculatePriceWithTax();
             return $"${Price} before tax and ${priceWithTax} after ${_taxPercentage * 100} % tax.";
         }
 
