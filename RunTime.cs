@@ -8,13 +8,13 @@
             Product product = new()
             {
                 Name= "The Little Prince",
-                UBC= 12345,
+                UPC= 12345,
                 Price= 20.25
             };
 
             Console.WriteLine(product.PriceReport());
 
-            Product.TaxPercentage = -0.25;
+            Product.TaxPercentage = 0.25;
 
             Console.WriteLine(product.PriceReport());
         }
