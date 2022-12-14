@@ -39,8 +39,8 @@ namespace Price_Calculator_Kata
         {
             double taxAmount = priceCalculator.CalculateTax(Price);
             double discountAmount = priceCalculator.CalculateDiscount(Price); ;
-           
-            double priceAfter = Math.Round(Price + taxAmount - discountAmount, 2);
+
+            double priceAfter = priceCalculator.CalculateTotalPrice(Price);
 
             string discountPercentageInReport = "";
             string discountAmountInReport = "";

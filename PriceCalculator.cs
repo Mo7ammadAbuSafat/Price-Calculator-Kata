@@ -42,7 +42,15 @@ namespace Price_Calculator_Kata
         public double CalculateDiscount(double price)
         {
             return Math.Round(DiscountPercentage * price, 2);
-
         }
+
+        public double CalculateTotalPrice(double price)
+        {
+            return Math.Round(price + CalculateTax(price) - CalculateDiscount(price), 2); ;
+        }
+
+        
+
+
     }
 }
