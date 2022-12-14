@@ -14,7 +14,8 @@
 
             Console.WriteLine(product.PriceReport());
 
-            Product.TaxPercentage = 0.25;
+            Product.priceCalculator.TaxPercentage = 0.25;
+            Product.priceCalculator.DiscountPercentage = 0.15;
 
             Console.WriteLine(product.PriceReport());
         }
