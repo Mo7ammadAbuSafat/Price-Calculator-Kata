@@ -12,12 +12,13 @@
                 Price= 20.25
             };
 
-            Console.WriteLine(product.PriceReport());
+            PriceCalculator calc = new(0.2, 0.15);
 
-            Product.priceCalculator.TaxPercentage = 0.25;
-            Product.priceCalculator.DiscountPercentage = 0.15;
+            Console.WriteLine(calc.PriceReport(product));
 
-            Console.WriteLine(product.PriceReport());
+            PriceCalculator calc2 = new();
+            Console.WriteLine(calc2.PriceReport(product));
+
         }
         
     }

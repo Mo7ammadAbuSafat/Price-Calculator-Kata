@@ -34,22 +34,53 @@ namespace Price_Calculator_Kata
             }
         }
 
-        public double CalculateTax(double price)
+        public PriceCalculator() { }
+
+        public PriceCalculator(double taxPercentage, double discountPercentage)
         {
-            return Math.Round(TaxPercentage * price, 2);
+            TaxPercentage = taxPercentage;
+            DiscountPercentage = discountPercentage;
         }
 
-        public double CalculateDiscount(double price)
+        public double CalculateTax(Product product)
         {
-            return Math.Round(DiscountPercentage * price, 2);
+            return Math.Round(TaxPercentage * product.Price, 2);
         }
 
-        public double CalculateTotalPrice(double price)
+        public double CalculateDiscount(Product product)
         {
-            return Math.Round(price + CalculateTax(price) - CalculateDiscount(price), 2); ;
+            return Math.Round(DiscountPercentage * product.Price, 2);
         }
 
-        
+        public double CalculateTotalPrice(Product product)
+        {
+            return Math.Round(product.Price + CalculateTax(product) - CalculateDiscount(product), 2); ;
+        }
+
+        public string PriceReport(Product product)
+        {
+            double taxAmount = CalculateTax(product);
+            double discountAmount = CalculateDiscount(product); ;
+
+            double priceAfter = CalculateTotalPrice(product);
+
+            string discountPercentageInReport = "";
+            string discountAmountInReport = "";
+            if (DiscountPercentage != 0)
+            {
+                discountAmountInReport = $" Discount amount = ${discountAmount},";
+                discountPercentageInReport = $"discount={DiscountPercentage * 100}%,";
+            }
+
+            return $"Tax={TaxPercentage * 100}%," +
+                   discountPercentageInReport +
+                   $"Tax amount = ${taxAmount}," +
+                   discountAmountInReport +
+                   $" Price before = ${product.Price}," +
+                   $" price after = ${priceAfter}";
+        }
+
+
 
 
     }
