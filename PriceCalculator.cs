@@ -15,7 +15,7 @@ namespace Price_Calculator_Kata
                     throw new ArgumentException("Tax percentage cannot be a negative value.");
                 }
 
-                _taxPercentage = value;
+                _taxPercentage = Math.Round(value, 2);
             }
         }
 
@@ -30,7 +30,7 @@ namespace Price_Calculator_Kata
                     throw new ArgumentException("Discount percentage must be between 0 and 1.");
                 }
 
-                _discountPercentage = value;
+                _discountPercentage = Math.Round(value, 2);
             }
         }
 
@@ -79,9 +79,6 @@ namespace Price_Calculator_Kata
                    $" Price before = ${product.Price}," +
                    $" price after = ${priceAfter}";
         }
-
-
-
 
     }
 }
