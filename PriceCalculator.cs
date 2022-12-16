@@ -105,16 +105,17 @@ namespace Price_Calculator_Kata
             if (discountAmount != 0) {
                 if (getSpecialDiscount().Percentage == 0)
                 {
-                    reportList.Add($" Universal Discount amount = ${discountAmount},");
+                    reportList.Add($" Universal");
                 }
                 else if (UniversalDiscountPercentage == 0)
                 {
-                    reportList.Add($" Special Discount amount = ${discountAmount},");
+                    reportList.Add($" Special");
                 }
                 else
                 {
-                    reportList.Add($" Total Discount amount = ${discountAmount},");
+                    reportList.Add($" Total ");
                 }
+                reportList.Add($" Discount amount = ${discountAmount},");
             }
 
             reportList.Add($" Price before = ${product.Price},");
