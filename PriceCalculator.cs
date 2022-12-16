@@ -26,17 +26,18 @@ namespace Price_Calculator_Kata
             }
         }
 
-        private Tuple<int, double> _specialDiscount = new(-1,0);
+        private SpecialDiscountPair _specialDiscount = new(-1,0);
 
-        public Tuple<int, double> getSpecialDiscount()
+        public SpecialDiscountPair getSpecialDiscount()
         {
             return _specialDiscount;
         }
 
-        public void setSpecialDiscountPercentage(Tuple<int, double> specialDiscount)
+        public void setSpecialDiscount(int UPC, double Percentage)
         {
-            CheckPercentageValidation(specialDiscount.Item2, "Special discount");
-            _specialDiscount = new(specialDiscount.Item1, Math.Round(specialDiscount.Item2, 2));
+            CheckPercentageValidation(Percentage, "Special discount");
+            _specialDiscount.UPC = UPC;
+            _specialDiscount.Percentage = Percentage;
         }
 
         public PriceCalculator() { }
@@ -45,16 +46,16 @@ namespace Price_Calculator_Kata
         {
             TaxPercentage = taxPercentage;
             UniversalDiscountPercentage = universalDiscountPercentage;
-
         }
 
         public PriceCalculator(double taxPercentage,
                                double universalDiscountPercentage,
-                               Tuple<int, double> specialDiscount)
+                               int UPC,
+                               double Percentage)
         {
             TaxPercentage = taxPercentage;
             UniversalDiscountPercentage = universalDiscountPercentage;
-            setSpecialDiscountPercentage(specialDiscount);
+            setSpecialDiscount(UPC,Percentage);
         }
 
         public static void CheckPercentageValidation(double percentage, string percentageName)
@@ -73,9 +74,9 @@ namespace Price_Calculator_Kata
         public double CalculateDiscount(Product product)
         {
             double totalDiscount = 0;
-            if(product.UPC == getSpecialDiscount().Item1)
+            if(product.UPC == getSpecialDiscount().UPC)
             {
-                double specialDiscountAmount = Math.Round(getSpecialDiscount().Item2 * product.Price, 2);
+                double specialDiscountAmount = Math.Round(getSpecialDiscount().Percentage * product.Price, 2);
                 totalDiscount = Math.Round(totalDiscount + specialDiscountAmount, 2);
             }
 
@@ -95,35 +96,32 @@ namespace Price_Calculator_Kata
 
         public string PriceReport(Product product)
         {
-            double taxAmount = CalculateTax(product);
+            List<string> reportList = new();
+
+            reportList.Add($"Tax amount = ${CalculateTax(product)},");
 
             double discountAmount = CalculateDiscount(product);
 
-            double priceAfter = CalculateTotalPrice(product);
-
-            string discountAmountInReport;
-
-            if (UniversalDiscountPercentage == 0 && getSpecialDiscount().Item2 == 0)
-            {
-                discountAmountInReport = "";
-            }
-            else if(getSpecialDiscount().Item2 == 0)
-            {
-                discountAmountInReport = $" Universal Discount amount = ${discountAmount},";
-            }
-            else if (UniversalDiscountPercentage == 0)
-            {
-                discountAmountInReport = $" Special Discount amount = ${discountAmount},";
-            }
-            else
-            {
-                discountAmountInReport = $" Total Discount amount = ${discountAmount},";
+            if (discountAmount != 0) {
+                if (getSpecialDiscount().Percentage == 0)
+                {
+                    reportList.Add($" Universal Discount amount = ${discountAmount},");
+                }
+                else if (UniversalDiscountPercentage == 0)
+                {
+                    reportList.Add($" Special Discount amount = ${discountAmount},");
+                }
+                else
+                {
+                    reportList.Add($" Total Discount amount = ${discountAmount},");
+                }
             }
 
-            return $"Tax amount = ${taxAmount}," +
-                   discountAmountInReport +
-                   $" Price before = ${product.Price}," +
-                   $" price after = ${priceAfter}";
+            reportList.Add($" Price before = ${product.Price},");
+
+            reportList.Add($" price after = ${CalculateTotalPrice(product)}");
+
+            return String.Join(String.Empty, reportList.ToArray());
         }
                 
     }
