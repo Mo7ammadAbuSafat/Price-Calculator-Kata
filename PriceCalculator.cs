@@ -108,11 +108,6 @@ namespace Price_Calculator_Kata
         {
             return Math.Round(product.Price + CalculateTax(product) - CalculateTotalDiscount(product), 2);
         }
-
-        public string PriceReport(Product product)
-        {
-            return ReportGenerator.reportPrice(this, product);
-        }
-                
+ 
     }
 }

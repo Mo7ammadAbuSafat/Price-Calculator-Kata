@@ -13,7 +13,7 @@
             };
 
             PriceCalculator calc = new(0.2,new(.15, false), new(12345, 0.07, true));
-            Console.WriteLine(calc.PriceReport(product));
+            Console.WriteLine(ReportGenerator.reportPrice(calc,product));
 
         }
         
