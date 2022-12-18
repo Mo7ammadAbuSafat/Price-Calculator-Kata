@@ -12,16 +12,7 @@
                 Price= 20.25
             };
 
-            PriceCalculator calc = new();
-            Console.WriteLine(calc.PriceReport(product));
-
-            calc = new(0.25);
-            Console.WriteLine(calc.PriceReport(product));
-
-            calc = new(0.25, 0.15);
-            Console.WriteLine(calc.PriceReport(product));
-
-            calc = new(0.25, 0.15, 12345, 0.3);
+            PriceCalculator calc = new(0.2,new(.15, false), new(12345, 0.07, true));
             Console.WriteLine(calc.PriceReport(product));
 
         }

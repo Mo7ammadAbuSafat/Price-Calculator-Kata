@@ -1,14 +1,17 @@
 ﻿namespace Price_Calculator_Kata
 {
-    public class SpecialDiscountPair
+    public class SpecialDiscount
     {
         public int UPC { get; set; }
         public double Percentage { get; set; }
 
-        public SpecialDiscountPair(int uPC, double Percentage)
+        public bool IsTaxCalculatedAfter { get; set; }
+
+        public SpecialDiscount(int UPC, double Percentage, bool IsTaxCalculatedAfter)
         {
-            UPC = uPC;
+            this.UPC = UPC;
             this.Percentage = Percentage;
+            this.IsTaxCalculatedAfter = IsTaxCalculatedAfter;
         }
     }
 }
