@@ -2,34 +2,17 @@
 {
     public class ReportGenerator
     {
-        public static string reportPrice(PriceCalculator calc, Product product)
+        public static string reportPrice(PriceBreakdown priceBreakdown)
         {
             List<string> reportList = new();
 
-            reportList.Add($"Tax amount = ${calc.CalculateTax(product)},");
+            reportList.Add($"Tax amount = ${priceBreakdown.Tax},");
 
-            double discountAmount = calc.CalculateTotalDiscount(product);
+            reportList.Add($" Total Discount amount = ${priceBreakdown.Discount},");
 
-            if (discountAmount != 0)
-            {
-                if (calc.getSpecialDiscount().Percentage == 0)
-                {
-                    reportList.Add($" Universal");
-                }
-                else if (calc.getUniversalDiscount().Percentage == 0)
-                {
-                    reportList.Add($" Special");
-                }
-                else
-                {
-                    reportList.Add($" Total ");
-                }
-                reportList.Add($" Discount amount = ${discountAmount},");
-            }
+            reportList.Add($" Price before = ${priceBreakdown.ProductPrice},");
 
-            reportList.Add($" Price before = ${product.Price},");
-
-            reportList.Add($" price after = ${calc.CalculateTotalPrice(product)}");
+            reportList.Add($" price after = ${priceBreakdown.FinalPrice}");
 
             return String.Join(String.Empty, reportList.ToArray());
         }

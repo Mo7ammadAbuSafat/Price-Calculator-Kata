@@ -4,7 +4,7 @@ namespace Price_Calculator_Kata
 {
     public class PriceCalculator
     {
-        private double _taxPercentage = 0.2;
+        private double _taxPercentage;
         public double TaxPercentage
         {
             get => _taxPercentage;
@@ -15,9 +15,9 @@ namespace Price_Calculator_Kata
             }
         }
 
-        private UniversalDiscount _universalDiscount = new(0,true);
+        private UniversalDiscount? _universalDiscount;
 
-        public UniversalDiscount getUniversalDiscount()
+        public UniversalDiscount? getUniversalDiscount()
         {
             return _universalDiscount;
         }
@@ -25,14 +25,14 @@ namespace Price_Calculator_Kata
         public void setUniversalDiscount(UniversalDiscount universalDiscount)
         {
             CheckPercentageValidation(universalDiscount.Percentage, "Special discount");
-            _universalDiscount.Percentage = universalDiscount.Percentage;
-            _universalDiscount.IsTaxCalculatedAfter = universalDiscount.IsTaxCalculatedAfter;
+            _universalDiscount = universalDiscount;
+
         }
 
 
-        private SpecialDiscount _specialDiscount = new(-1, 0, true);
+        private SpecialDiscount? _specialDiscount;
 
-        public SpecialDiscount getSpecialDiscount()
+        public SpecialDiscount? getSpecialDiscount()
         {
             return _specialDiscount;
         }
@@ -40,12 +40,13 @@ namespace Price_Calculator_Kata
         public void setSpecialDiscount(SpecialDiscount specialDiscount)
         {
             CheckPercentageValidation(specialDiscount.Percentage, "Special discount");
-            _specialDiscount.UPC = specialDiscount.UPC;
-            _specialDiscount.Percentage = specialDiscount.Percentage;
-            _specialDiscount.IsTaxCalculatedAfter = specialDiscount.IsTaxCalculatedAfter;
+            _specialDiscount = specialDiscount;
         }
 
-        public PriceCalculator(double taxPercentage = 0.2) 
+        public PriceCalculator()
+        {
+        }
+        public PriceCalculator(double taxPercentage) 
         {
             TaxPercentage = taxPercentage;
         }
@@ -74,11 +75,11 @@ namespace Price_Calculator_Kata
         public double CalculateTax(Product product)
         {
             double priceForTax= product.Price;
-            if (_universalDiscount.IsTaxCalculatedAfter)
+            if (_universalDiscount?.DiscountType==Type.PRE_TAX)
             {
                 priceForTax = Math.Round(priceForTax - CalculateUniversalDiscount(product), 2);
             }
-            if (_specialDiscount.IsTaxCalculatedAfter)
+            if (_specialDiscount?.DiscountType == Type.PRE_TAX)
             {
                 priceForTax = Math.Round(priceForTax - CalculateSpecialDiscount(product), 2);
             }
@@ -87,6 +88,7 @@ namespace Price_Calculator_Kata
 
         public double CalculateSpecialDiscount(Product product)
         {
+            if (getSpecialDiscount() == null) return 0;
             if (product.UPC == getSpecialDiscount().UPC)
             {
                 return Math.Round(getSpecialDiscount().Percentage * product.Price, 2);
@@ -96,6 +98,8 @@ namespace Price_Calculator_Kata
 
         public double CalculateUniversalDiscount(Product product)
         {
+            if (getUniversalDiscount() == null)
+                return 0;
             return Math.Round(getUniversalDiscount().Percentage * product.Price, 2);
         }
 
@@ -108,6 +112,19 @@ namespace Price_Calculator_Kata
         {
             return Math.Round(product.Price + CalculateTax(product) - CalculateTotalDiscount(product), 2);
         }
- 
+
+        public PriceBreakdown CalculatePrice(Product product)
+        {
+            PriceBreakdown priceBreakdown = new()
+            {
+                ProductPrice = product.Price,
+                Tax = CalculateTax(product),
+                Discount = CalculateTotalDiscount(product),
+                FinalPrice = CalculateTotalPrice(product)
+            };
+
+            return priceBreakdown;
+        }
+
     }
 }
