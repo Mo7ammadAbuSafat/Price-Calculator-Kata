@@ -111,33 +111,7 @@ namespace Price_Calculator_Kata
 
         public string PriceReport(Product product)
         {
-            List<string> reportList = new();
-
-            reportList.Add($"Tax amount = ${CalculateTax(product)},");
-
-            double discountAmount = CalculateTotalDiscount(product);
-
-            if (discountAmount != 0) {
-                if (_specialDiscount.Percentage == 0)
-                {
-                    reportList.Add($" Universal");
-                }
-                else if (_universalDiscount.Percentage == 0)
-                {
-                    reportList.Add($" Special");
-                }
-                else
-                {
-                    reportList.Add($" Total ");
-                }
-                reportList.Add($" Discount amount = ${discountAmount},");
-            }
-
-            reportList.Add($" Price before = ${product.Price},");
-
-            reportList.Add($" price after = ${CalculateTotalPrice(product)}");
-
-            return String.Join(String.Empty, reportList.ToArray());
+            return ReportGenerator.reportPrice(this, product);
         }
                 
     }
