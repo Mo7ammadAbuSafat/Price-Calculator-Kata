@@ -4,13 +4,13 @@
     {
         public int UPC { get; set; }
         public double Percentage { get; set; }
-        public Type DiscountType { get; set; }
+        public DiscountType Type { get; set; }
 
-        public SpecialDiscount(int UPC, double Percentage, Type DiscountType)
+        public SpecialDiscount(int UPC, double Percentage, DiscountType Type)
         {
             this.UPC = UPC;
             this.Percentage = Percentage;
-            this.DiscountType = DiscountType;
+            this.Type = Type;
         }
     }
 }

@@ -20,11 +20,11 @@
             priceBreakdown = calc.CalculatePrice(product);
             Console.WriteLine(ReportGenerator.reportPrice(priceBreakdown));
 
-            calc = new(0.2, new(.15, Type.POST_TAX));
+            calc = new(0.2, new(.15, DiscountType.POST_TAX));
             priceBreakdown = calc.CalculatePrice(product);
             Console.WriteLine(ReportGenerator.reportPrice(priceBreakdown));
 
-            calc = new(0.2, new(.15, Type.POST_TAX), new(12345, 0.07, Type.PRE_TAX));
+            calc = new(0.2, new(.15, DiscountType.POST_TAX), new(12345, 0.07, DiscountType.PRE_TAX));
             priceBreakdown = calc.CalculatePrice(product);
             Console.WriteLine(ReportGenerator.reportPrice(priceBreakdown));
 

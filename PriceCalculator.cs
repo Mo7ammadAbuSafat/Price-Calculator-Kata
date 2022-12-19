@@ -24,7 +24,7 @@ namespace Price_Calculator_Kata
 
         public void setUniversalDiscount(UniversalDiscount universalDiscount)
         {
-            CheckPercentageValidation(universalDiscount.Percentage, "Special discount");
+            CheckPercentageValidation(universalDiscount.Percentage, "Universal discount");
             _universalDiscount = universalDiscount;
 
         }
@@ -74,15 +74,14 @@ namespace Price_Calculator_Kata
 
         public double CalculateTax(Product product)
         {
-            double priceForTax= product.Price;
-            if (_universalDiscount?.DiscountType==Type.PRE_TAX)
+            double priceForTax = product.Price;
+
+            if (CalculatePostTaxDiscount(product) != null)
             {
-                priceForTax = Math.Round(priceForTax - CalculateUniversalDiscount(product), 2);
+                priceForTax = Math.Round(priceForTax - (double)CalculatePostTaxDiscount(product), 2);
             }
-            if (_specialDiscount?.DiscountType == Type.PRE_TAX)
-            {
-                priceForTax = Math.Round(priceForTax - CalculateSpecialDiscount(product), 2);
-            }
+
+            
             return Math.Round(TaxPercentage * priceForTax, 2);
         }
 
@@ -103,6 +102,36 @@ namespace Price_Calculator_Kata
             return Math.Round(getUniversalDiscount().Percentage * product.Price, 2);
         }
 
+        public double? CalculatePreTaxDiscount(Product product)
+        {
+            double PreTaxDiscount = 0;
+            if (_universalDiscount?.Type == DiscountType.PRE_TAX)
+            {
+                PreTaxDiscount = Math.Round(PreTaxDiscount + CalculateUniversalDiscount(product), 2);
+            }
+            if (_specialDiscount?.Type == DiscountType.PRE_TAX)
+            {
+                PreTaxDiscount = Math.Round(PreTaxDiscount + CalculateSpecialDiscount(product), 2);
+            }
+
+            return PreTaxDiscount==0 ? null : PreTaxDiscount;
+        }
+
+        public double? CalculatePostTaxDiscount(Product product)
+        {
+            double PostTaxDiscount = 0;
+            if (_universalDiscount?.Type == DiscountType.POST_TAX)
+            {
+                PostTaxDiscount = Math.Round(PostTaxDiscount + CalculateUniversalDiscount(product), 2);
+            }
+            if (_specialDiscount?.Type == DiscountType.POST_TAX)
+            {
+                PostTaxDiscount = Math.Round(PostTaxDiscount + CalculateSpecialDiscount(product), 2);
+            }
+
+            return PostTaxDiscount == 0 ? null : PostTaxDiscount;
+        }
+
         public double CalculateTotalDiscount(Product product)
         {
             return Math.Round(CalculateSpecialDiscount(product) + CalculateUniversalDiscount(product), 2);
@@ -119,7 +148,8 @@ namespace Price_Calculator_Kata
             {
                 ProductPrice = product.Price,
                 Tax = CalculateTax(product),
-                Discount = CalculateTotalDiscount(product),
+                PreTaxDiscount = CalculatePreTaxDiscount(product),
+                PostTaxDiscount = CalculatePostTaxDiscount(product),
                 FinalPrice = CalculateTotalPrice(product)
             };
 

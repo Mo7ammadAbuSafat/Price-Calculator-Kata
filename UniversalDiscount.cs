@@ -4,12 +4,12 @@
     {
         public double Percentage { get; set; }
 
-        public Type DiscountType { get; set; }
+        public DiscountType Type { get; set; }
 
-        public UniversalDiscount(double Percentage, Type DiscountType)
+        public UniversalDiscount(double Percentage, DiscountType Type)
         {
             this.Percentage = Percentage;
-            this.DiscountType = DiscountType;
+            this.Type = Type;
         }
     }
 }
