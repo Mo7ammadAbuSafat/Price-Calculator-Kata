@@ -4,7 +4,7 @@ namespace Price_Calculator_Kata
 {
     public class PriceCalculator
     {
-        private double _taxPercentage = 0.2;
+        private double _taxPercentage;
         public double TaxPercentage
         {
             get => _taxPercentage;
@@ -15,47 +15,53 @@ namespace Price_Calculator_Kata
             }
         }
 
-        private double _universalDiscountPercentage = 0;
-        public double UniversalDiscountPercentage
+        private UniversalDiscount? _universalDiscount;
+
+        public UniversalDiscount? getUniversalDiscount()
         {
-            get => _universalDiscountPercentage;
-            set
-            {
-                CheckPercentageValidation(value, "Universal discount");
-                _universalDiscountPercentage = Math.Round(value, 2);
-            }
+            return _universalDiscount;
         }
 
-        private SpecialDiscountPair _specialDiscount = new(-1,0);
+        public void setUniversalDiscount(UniversalDiscount universalDiscount)
+        {
+            CheckPercentageValidation(universalDiscount.Percentage, "Universal discount");
+            _universalDiscount = universalDiscount;
 
-        public SpecialDiscountPair getSpecialDiscount()
+        }
+
+
+        private SpecialDiscount? _specialDiscount;
+
+        public SpecialDiscount? getSpecialDiscount()
         {
             return _specialDiscount;
         }
 
-        public void setSpecialDiscount(int UPC, double Percentage)
+        public void setSpecialDiscount(SpecialDiscount specialDiscount)
         {
-            CheckPercentageValidation(Percentage, "Special discount");
-            _specialDiscount.UPC = UPC;
-            _specialDiscount.Percentage = Percentage;
+            CheckPercentageValidation(specialDiscount.Percentage, "Special discount");
+            _specialDiscount = specialDiscount;
         }
 
-        public PriceCalculator() { }
-
-        public PriceCalculator(double taxPercentage=0.2, double universalDiscountPercentage=0)
+        public PriceCalculator()
+        {
+        }
+        public PriceCalculator(double taxPercentage) 
         {
             TaxPercentage = taxPercentage;
-            UniversalDiscountPercentage = universalDiscountPercentage;
         }
 
-        public PriceCalculator(double taxPercentage,
-                               double universalDiscountPercentage,
-                               int UPC,
-                               double Percentage)
+        public PriceCalculator(double taxPercentage, UniversalDiscount universalDiscount)
         {
             TaxPercentage = taxPercentage;
-            UniversalDiscountPercentage = universalDiscountPercentage;
-            setSpecialDiscount(UPC,Percentage);
+            setUniversalDiscount(universalDiscount);
+        }
+
+        public PriceCalculator(double taxPercentage, UniversalDiscount universalDiscount, SpecialDiscount specialDiscount)
+        {
+            TaxPercentage = taxPercentage;
+            setUniversalDiscount(universalDiscount);
+            setSpecialDiscount(specialDiscount);
         }
 
         public static void CheckPercentageValidation(double percentage, string percentageName)
@@ -68,62 +74,87 @@ namespace Price_Calculator_Kata
 
         public double CalculateTax(Product product)
         {
-            return Math.Round(TaxPercentage * product.Price, 2);
+            double priceForTax = product.Price;
+
+            if (CalculatePreTaxDiscount(product) != null)
+            {
+                priceForTax = Math.Round(priceForTax - (double)CalculatePreTaxDiscount(product), 2);
+            }
+
+            
+            return Math.Round(TaxPercentage * priceForTax, 2);
         }
 
-        public double CalculateDiscount(Product product)
+        public double CalculateSpecialDiscount(Product product)
         {
-            double totalDiscount = 0;
-            if(product.UPC == getSpecialDiscount().UPC)
+            if (getSpecialDiscount() == null) return 0;
+            if (product.UPC == getSpecialDiscount().UPC)
             {
-                double specialDiscountAmount = Math.Round(getSpecialDiscount().Percentage * product.Price, 2);
-                totalDiscount = Math.Round(totalDiscount + specialDiscountAmount, 2);
+                return Math.Round(getSpecialDiscount().Percentage * product.Price, 2);
+            }
+            else return 0;
+        }
+
+        public double CalculateUniversalDiscount(Product product)
+        {
+            if (getUniversalDiscount() == null)
+                return 0;
+            return Math.Round(getUniversalDiscount().Percentage * product.Price, 2);
+        }
+
+        public double? CalculatePreTaxDiscount(Product product)
+        {
+            double PreTaxDiscount = 0;
+            if (_universalDiscount?.Type == DiscountType.PRE_TAX)
+            {
+                PreTaxDiscount = Math.Round(PreTaxDiscount + CalculateUniversalDiscount(product), 2);
+            }
+            if (_specialDiscount?.Type == DiscountType.PRE_TAX)
+            {
+                PreTaxDiscount = Math.Round(PreTaxDiscount + CalculateSpecialDiscount(product), 2);
             }
 
-            if (UniversalDiscountPercentage != 0)
+            return PreTaxDiscount==0 ? null : PreTaxDiscount;
+        }
+
+        public double? CalculatePostTaxDiscount(Product product)
+        {
+            double PostTaxDiscount = 0;
+            if (_universalDiscount?.Type == DiscountType.POST_TAX)
             {
-                double universalDiscountAmount = Math.Round(UniversalDiscountPercentage * product.Price, 2);
-                totalDiscount = Math.Round(totalDiscount + universalDiscountAmount, 2);
+                PostTaxDiscount = Math.Round(PostTaxDiscount + CalculateUniversalDiscount(product), 2);
+            }
+            if (_specialDiscount?.Type == DiscountType.POST_TAX)
+            {
+                PostTaxDiscount = Math.Round(PostTaxDiscount + CalculateSpecialDiscount(product), 2);
             }
 
-            return totalDiscount;
+            return PostTaxDiscount == 0 ? null : PostTaxDiscount;
+        }
+
+        public double CalculateTotalDiscount(Product product)
+        {
+            return Math.Round(CalculateSpecialDiscount(product) + CalculateUniversalDiscount(product), 2);
         }
 
         public double CalculateTotalPrice(Product product)
         {
-            return Math.Round(product.Price + CalculateTax(product) - CalculateDiscount(product), 2);
+            return Math.Round(product.Price + CalculateTax(product) - CalculateTotalDiscount(product), 2);
         }
 
-        public string PriceReport(Product product)
+        public PriceBreakdown CalculatePrice(Product product)
         {
-            List<string> reportList = new();
+            PriceBreakdown priceBreakdown = new()
+            {
+                ProductPrice = product.Price,
+                Tax = CalculateTax(product),
+                PreTaxDiscount = CalculatePreTaxDiscount(product),
+                PostTaxDiscount = CalculatePostTaxDiscount(product),
+                FinalPrice = CalculateTotalPrice(product)
+            };
 
-            reportList.Add($"Tax amount = ${CalculateTax(product)},");
-
-            double discountAmount = CalculateDiscount(product);
-
-            if (discountAmount != 0) {
-                if (getSpecialDiscount().Percentage == 0)
-                {
-                    reportList.Add($" Universal");
-                }
-                else if (UniversalDiscountPercentage == 0)
-                {
-                    reportList.Add($" Special");
-                }
-                else
-                {
-                    reportList.Add($" Total ");
-                }
-                reportList.Add($" Discount amount = ${discountAmount},");
-            }
-
-            reportList.Add($" Price before = ${product.Price},");
-
-            reportList.Add($" price after = ${CalculateTotalPrice(product)}");
-
-            return String.Join(String.Empty, reportList.ToArray());
+            return priceBreakdown;
         }
-                
+
     }
 }

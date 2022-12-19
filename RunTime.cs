@@ -13,16 +13,20 @@
             };
 
             PriceCalculator calc = new();
-            Console.WriteLine(calc.PriceReport(product));
+            PriceBreakdown priceBreakdown = calc.CalculatePrice(product);
+            Console.WriteLine(ReportGenerator.reportPrice(priceBreakdown));
 
-            calc = new(0.25);
-            Console.WriteLine(calc.PriceReport(product));
+            calc = new(0.2);
+            priceBreakdown = calc.CalculatePrice(product);
+            Console.WriteLine(ReportGenerator.reportPrice(priceBreakdown));
 
-            calc = new(0.25, 0.15);
-            Console.WriteLine(calc.PriceReport(product));
+            calc = new(0.2, new(.15, DiscountType.POST_TAX));
+            priceBreakdown = calc.CalculatePrice(product);
+            Console.WriteLine(ReportGenerator.reportPrice(priceBreakdown));
 
-            calc = new(0.25, 0.15, 12345, 0.3);
-            Console.WriteLine(calc.PriceReport(product));
+            calc = new(0.2, new(.15, DiscountType.POST_TAX), new(12345, 0.07, DiscountType.PRE_TAX));
+            priceBreakdown = calc.CalculatePrice(product);
+            Console.WriteLine(ReportGenerator.reportPrice(priceBreakdown));
 
         }
         
