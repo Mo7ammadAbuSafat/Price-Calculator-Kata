@@ -76,9 +76,9 @@ namespace Price_Calculator_Kata
         {
             double priceForTax = product.Price;
 
-            if (CalculatePostTaxDiscount(product) != null)
+            if (CalculatePreTaxDiscount(product) != null)
             {
-                priceForTax = Math.Round(priceForTax - (double)CalculatePostTaxDiscount(product), 2);
+                priceForTax = Math.Round(priceForTax - (double)CalculatePreTaxDiscount(product), 2);
             }
 
             
