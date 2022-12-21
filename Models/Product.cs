@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Price_Calculator_Kata
+namespace Price_Calculator_Kata.Models
 {
     public class Product
     {
@@ -20,15 +20,6 @@ namespace Price_Calculator_Kata
 
                 _price = Math.Round(value, 2);
             }
-        }
-
-        public Product() { }
-
-        public Product(string name, int UPC, double price)
-        {
-            Name = name;
-            this.UPC = UPC;
-            Price = price;
         }
 
     }

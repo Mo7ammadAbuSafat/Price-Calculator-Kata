@@ -1,46 +1,34 @@
-﻿namespace Price_Calculator_Kata
+﻿using Price_Calculator_Kata.Models;
+
+namespace Price_Calculator_Kata
 {
     public class PriceCalculator
     {
-        public Product product { get; set; }
-
         public StoreRules storeRules { get; set; }
 
-        public DiscountsCalculator discountsCalculator { get; set; }
-
-        public PriceCalculator(Product product, StoreRules storeRules)
+        public PriceBreakdown CalculatePrice(Product product)
         {
-            this.product = product;
-            this.storeRules = storeRules;
-            discountsCalculator = new(storeRules, product);
-        }
-
-        public double CalculateTax()
-        {
-            double priceForTax = product.Price;
-
-            if (discountsCalculator.CalculatePreTaxDiscount() != null)
+            DiscountsCalculator discountsCalculator = new()
             {
-                priceForTax = Math.Round(priceForTax - (double)discountsCalculator.CalculatePreTaxDiscount(), 2);
-            }
+                storeRules = storeRules,
+            };
 
-            return Math.Round(storeRules.TaxPercentage * priceForTax, 2);
-        }
+            DiscountsBreakdown discountsBreakdown = discountsCalculator.CalculateDiscounts(product);
 
-        public double CalculateTotalPrice()
-        {
-            return Math.Round(product.Price + CalculateTax() - discountsCalculator.CalculateTotalDiscount(), 2);
-        }
+            TaxCalculator taxCalculator = new()
+            {
+                storeRules = storeRules,
+            };
 
-        public PriceBreakdown CalculatePrice()
-        {
+            double TaxAmount = taxCalculator.CalculateTax(product, discountsBreakdown.PreTaxDiscount);
+
             PriceBreakdown priceBreakdown = new()
             {
                 ProductPrice = product.Price,
-                Tax = CalculateTax(),
-                PreTaxDiscount = discountsCalculator.CalculatePreTaxDiscount(),
-                PostTaxDiscount = discountsCalculator.CalculatePostTaxDiscount(),
-                FinalPrice = CalculateTotalPrice()
+                Tax = TaxAmount,
+                PreTaxDiscount = discountsBreakdown.PreTaxDiscount,
+                PostTaxDiscount = discountsBreakdown.PostTaxDiscount,
+                FinalPrice = Math.Round(product.Price + TaxAmount - discountsBreakdown.TotalDiscount, 2),
             };
 
             return priceBreakdown;
