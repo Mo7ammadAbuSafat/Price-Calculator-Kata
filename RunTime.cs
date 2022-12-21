@@ -1,4 +1,6 @@
-﻿namespace Price_Calculator_Kata
+﻿using Price_Calculator_Kata.Models;
+
+namespace Price_Calculator_Kata
 {
     public class RunTime
     {
@@ -12,21 +14,34 @@
                 Price= 20.25
             };
 
-            StoreRules calc = new();
-            PriceBreakdown priceBreakdown = calc.CalculatePrice(product);
+            UniversalDiscount universalDiscount = new()
+            {
+                Percentage = .15,
+                Type = DiscountType.POST_TAX
+            };
+
+            SpecialDiscount specialDiscount = new()
+            {
+                Percentage = 0.07,
+                UPC = 12345,
+                Type = DiscountType.PRE_TAX
+            };
+
+            StoreRules storeRules = new()
+            {
+                TaxPercentage = .2,
+                specialDiscount = specialDiscount,
+                universalDiscount = universalDiscount
+            };
+
+            PriceCalculator priceCalculator = new()
+            {
+                storeRules = storeRules,
+            };
+
+            PriceBreakdown priceBreakdown = priceCalculator.CalculatePrice(product);
             Console.WriteLine(ReportGenerator.reportPrice(priceBreakdown));
 
-            calc = new(0.2);
-            priceBreakdown = calc.CalculatePrice(product);
-            Console.WriteLine(ReportGenerator.reportPrice(priceBreakdown));
-
-            calc = new(0.2, new(.15, DiscountType.POST_TAX));
-            priceBreakdown = calc.CalculatePrice(product);
-            Console.WriteLine(ReportGenerator.reportPrice(priceBreakdown));
-
-            calc = new(0.2, new(.15, DiscountType.POST_TAX), new(12345, 0.07, DiscountType.PRE_TAX));
-            priceBreakdown = calc.CalculatePrice(product);
-            Console.WriteLine(ReportGenerator.reportPrice(priceBreakdown));
 
         }
         

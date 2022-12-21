@@ -1,27 +1,19 @@
-﻿namespace Price_Calculator_Kata
+﻿using Price_Calculator_Kata.Models;
+
+namespace Price_Calculator_Kata
 {
     public class TaxCalculator
     {
-
-        DiscountsCalculator discountsCalculator;
-        public Product product;
-
-        public TaxCalculator(DiscountsCalculator discountsCalculator, Product product)
-        {
-            this.discountsCalculator = discountsCalculator;
-            this.product = product;
-        }
-        public double CalculateTax()
+        public StoreRules storeRules { get; set; }
+        public double CalculateTax(Product product, double? preTaxDiscount)
         {
             double priceForTax = product.Price;
-
-            if (discountsCalculator.CalculatePreTaxDiscount() != null)
+            if(preTaxDiscount != null)
             {
-                priceForTax = Math.Round(priceForTax - (double)discountsCalculator.CalculatePreTaxDiscount(), 2);
+                priceForTax = Math.Round(priceForTax - (double)preTaxDiscount, 2);
             }
 
-
-            return Math.Round(TaxPercentage * priceForTax, 2);
+            return Math.Round(storeRules.TaxPercentage * priceForTax, 2);
         }
     }
 }
