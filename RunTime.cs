@@ -12,7 +12,7 @@
                 Price= 20.25
             };
 
-            PriceCalculator calc = new();
+            StoreRules calc = new();
             PriceBreakdown priceBreakdown = calc.CalculatePrice(product);
             Console.WriteLine(ReportGenerator.reportPrice(priceBreakdown));
 
