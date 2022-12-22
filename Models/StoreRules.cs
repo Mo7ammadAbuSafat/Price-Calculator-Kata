@@ -1,4 +1,4 @@
-﻿using Price_Calculator_Kata.Services;
+using Price_Calculator_Kata.Services;
 
 namespace Price_Calculator_Kata.Models
 {
@@ -11,6 +11,5 @@ namespace Price_Calculator_Kata.Models
         public SpecialDiscount? specialDiscount{ get; set; }
 
         public List<AdditionalCostItem>? AdditionalCosts { get; set; }
-
     }
 }

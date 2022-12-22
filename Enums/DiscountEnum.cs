@@ -1,4 +1,4 @@
-﻿namespace Price_Calculator_Kata.Enums
+namespace Price_Calculator_Kata.Enums
 {
     public enum DiscountType
     {
