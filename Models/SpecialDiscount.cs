@@ -1,4 +1,6 @@
-﻿namespace Price_Calculator_Kata.Models
+﻿using Price_Calculator_Kata.Enums;
+
+namespace Price_Calculator_Kata.Models
 {
     public class SpecialDiscount
     {

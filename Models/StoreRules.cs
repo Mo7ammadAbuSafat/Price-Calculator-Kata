@@ -1,43 +1,16 @@
-﻿namespace Price_Calculator_Kata.Models
+﻿using Price_Calculator_Kata.Services;
+
+namespace Price_Calculator_Kata.Models
 {
     public class StoreRules
     {
-        private double _taxPercentage;
-        public double TaxPercentage
-        {
-            get => _taxPercentage;
-            set
-            {
-                Validation.CheckPercentageValidation(value, "Tax");
-                _taxPercentage = Math.Round(value, 2);
-            }
-        }
+        public double TaxPercentage { get; set; }
 
-        private UniversalDiscount? _universalDiscount;
+        public UniversalDiscount? universalDiscount{ get; set; }
 
-        public UniversalDiscount? universalDiscount
-        {
-            get => _universalDiscount;
-            set
-            {
-                Validation.CheckPercentageValidation(value.Percentage, "Universal discount");
-                _universalDiscount = value;
-            }
-        }
-        
+        public SpecialDiscount? specialDiscount{ get; set; }
 
-        private SpecialDiscount? _specialDiscount;
-
-        public SpecialDiscount? specialDiscount
-        {
-            get => _specialDiscount;
-            set
-            {
-                Validation.CheckPercentageValidation(value.Percentage, "Special discount");
-                _specialDiscount = value;
-            }
-        }
-
+        public List<AdditionalCostItem>? AdditionalCosts { get; set; }
 
     }
 }
