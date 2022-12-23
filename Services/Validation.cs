@@ -21,7 +21,7 @@ namespace Price_Calculator_Kata.Services
             }
         }
 
-        public void CheckAdditionalCostsValidation(List<AdditionalCostItem>? AdditionalCosts)
+        public void CheckAdditionalCostsValidation(List<AdditionalCostItem> AdditionalCosts)
         {
             foreach (var CostItem in AdditionalCosts)
             {
@@ -70,10 +70,8 @@ namespace Price_Calculator_Kata.Services
             {
                 CheckPercentageValidation(storeRules.universalDiscount.Percentage, "Universal Discount");
             }
-            if (storeRules.AdditionalCosts != null)
-            {
-                CheckAdditionalCostsValidation(storeRules.AdditionalCosts);
-            }
+            CheckAdditionalCostsValidation(storeRules.AdditionalCosts);
+            
         }
     }
 }

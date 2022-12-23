@@ -2,7 +2,7 @@
 {
     public class AdditionalCostsBreakdown
     {
-        public List<AdditionalCostItemResult>? additionalCostResults { get; set; }
-        public double? totalCost { get; set; }
+        public List<AdditionalCostItemResult> additionalCostResults { get; set; }
+        public double totalCost { get; set; }
     }
 }

@@ -29,7 +29,7 @@ namespace Price_Calculator_Kata.Services
                 reportList.Add($"Post Tax Discount amount = ${priceBreakdown.PostTaxDiscount},");
             }
 
-            if(priceBreakdown.AdditionalCostsResults != null)
+            if(priceBreakdown.AdditionalCostsResults.Count != 0)
             {
                 foreach (var cost in priceBreakdown.AdditionalCostsResults)
                 {

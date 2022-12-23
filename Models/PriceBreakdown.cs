@@ -6,7 +6,7 @@
         public double? PreTaxDiscount { get; set; }
         public double Tax { get; set; }
         public double? PostTaxDiscount { get; set; }
-        public List<AdditionalCostItemResult>? AdditionalCostsResults { get; set; }
+        public List<AdditionalCostItemResult> AdditionalCostsResults { get; set; }
         public double FinalPrice { get; set; }
 
     }

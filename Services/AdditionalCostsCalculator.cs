@@ -12,23 +12,23 @@ namespace Price_Calculator_Kata.Services
             this.storeRules = storeRules;
         }
 
-        public AdditionalCostItemResult CalculateAdditionalCostResult(AdditionalCostItem AC, Product product)
+        public AdditionalCostItemResult CalculateAdditionalCostResult(AdditionalCostItem additionalCostItem, Product product)
         {
             AdditionalCostItemResult additionalCostResult;
-            if (AC.Type == CostType.Percentage)
+            if (additionalCostItem.Type == CostType.Percentage)
             {
                 additionalCostResult = new()
                 {
-                    Name = AC.Name,
-                    Cost = Math.Round(AC.Cost * product.Price, 2),
+                    Name = additionalCostItem.Name,
+                    Cost = Math.Round(additionalCostItem.Cost * product.Price, 2),
                 };
             }
             else
             {
                 additionalCostResult = new()
                 {
-                    Name = AC.Name,
-                    Cost = AC.Cost
+                    Name = additionalCostItem.Name,
+                    Cost = additionalCostItem.Cost
                 };
             }
             return additionalCostResult;
@@ -50,9 +50,9 @@ namespace Price_Calculator_Kata.Services
                 return null;
             }
             List<AdditionalCostItemResult> listCosts = new();
-            foreach (var AC in storeRules.AdditionalCosts)
+            foreach (var additionalCostItem in storeRules.AdditionalCosts)
             {
-                listCosts.Add(CalculateAdditionalCostResult(AC, product));
+                listCosts.Add(CalculateAdditionalCostResult(additionalCostItem, product));
             }
 
             AdditionalCostsBreakdown additionalCostsBreakdown = new()

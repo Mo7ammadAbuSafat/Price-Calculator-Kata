@@ -27,11 +27,7 @@ namespace Price_Calculator_Kata.Services
             double TaxAmount = taxCalculator.CalculateTax(price);
 
             AdditionalCostsBreakdown additionalCostsBreakdown = additionalCostsCalculator.CalculateAdditionalCosts(product);
-            double totalAdditionalCosts = 0;
-            if(additionalCostsBreakdown.totalCost!=null)
-            {
-                totalAdditionalCosts = (double)additionalCostsBreakdown.totalCost;
-            }
+            double totalAdditionalCosts = (double)additionalCostsBreakdown.totalCost;
 
             double totalPrice = Math.Round(product.Price + TaxAmount - discountsBreakdown.TotalDiscount + totalAdditionalCosts, 2);
             PriceBreakdown priceBreakdown = new()
