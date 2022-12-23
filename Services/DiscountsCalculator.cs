@@ -1,10 +1,17 @@
 ﻿using Price_Calculator_Kata.Models;
+using Price_Calculator_Kata.Enums;
 
-namespace Price_Calculator_Kata
+namespace Price_Calculator_Kata.Services
 {
-    public class DiscountsCalculator
+    public class DiscountsCalculator : IDiscountCalculator
     {
-        public StoreRules storeRules { get; set; }
+        private StoreRules storeRules { get; set; }
+
+        public DiscountsCalculator(StoreRules storeRules)
+        {
+            this.storeRules = storeRules;
+        }
+
         public double CalculateSpecialDiscount(Product product)
         {
             if (storeRules.specialDiscount == null) return 0;
@@ -61,11 +68,9 @@ namespace Price_Calculator_Kata
         {
             DiscountsBreakdown discountsBreakdown = new()
             {
-                SpecialDiscount =  CalculateSpecialDiscount(product),
-                UniversalDiscount = CalculateUniversalDiscount(product),
-                PostTaxDiscount= CalculatePostTaxDiscount(product),
-                PreTaxDiscount= CalculatePreTaxDiscount(product),
-                TotalDiscount= CalculateTotalDiscount(product)
+                PostTaxDiscount = CalculatePostTaxDiscount(product),
+                PreTaxDiscount = CalculatePreTaxDiscount(product),
+                TotalDiscount = CalculateTotalDiscount(product)
             };
             return discountsBreakdown;
         }
