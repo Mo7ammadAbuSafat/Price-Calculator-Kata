@@ -1,3 +1,4 @@
+using Price_Calculator_Kata.Enums;
 using Price_Calculator_Kata.Services;
 
 namespace Price_Calculator_Kata.Models
@@ -9,6 +10,8 @@ namespace Price_Calculator_Kata.Models
         public UniversalDiscount? universalDiscount{ get; set; }
 
         public SpecialDiscount? specialDiscount{ get; set; }
+
+        public MethodsOfCombiningDiscounts CombiningDiscountsType { get; set; }
 
         public List<AdditionalCostItem> AdditionalCosts { get; set; }
     }

@@ -30,19 +30,20 @@ namespace Price_Calculator_Kata
             };
 
             List<AdditionalCostItem> additionalCosts = new List<AdditionalCostItem>();
-            AdditionalCostItem AC = new()
+            AdditionalCostItem additionalCostItem = new()
             {
                 Name = "Shipping",
                 Cost = 12,
                 Type = CostType.AbsoluteValue
             };
-            additionalCosts.Add(AC);
+            additionalCosts.Add(additionalCostItem);
 
             StoreRules storeRules = new()
             {
                 TaxPercentage = .2,
                 specialDiscount = specialDiscount,
                 universalDiscount = universalDiscount,
+                CombiningDiscountsType = MethodsOfCombiningDiscounts.multiplicative,
                 AdditionalCosts = additionalCosts
             };
 

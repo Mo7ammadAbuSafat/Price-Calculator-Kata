@@ -35,7 +35,7 @@ namespace Price_Calculator_Kata.Services
                 ProductPrice = product.Price,
                 Tax = TaxAmount,
                 PreTaxDiscount = discountsBreakdown.PreTaxDiscount,
-                PostTaxDiscount = discountsBreakdown.PostTaxDiscount,
+                TotalDiscount = discountsBreakdown.TotalDiscount,
                 AdditionalCostsResults = additionalCostsBreakdown.additionalCostResults,
                 FinalPrice = totalPrice
             };
