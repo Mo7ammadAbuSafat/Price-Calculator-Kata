@@ -2,7 +2,7 @@
 {
     public enum MethodsOfCombiningDiscounts
     {
-        additive,
-        multiplicative
+        ADDITIVE,
+        MULTIPLICATION
     }
 }

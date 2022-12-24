@@ -43,7 +43,7 @@ namespace Price_Calculator_Kata
                 TaxPercentage = .2,
                 specialDiscount = specialDiscount,
                 universalDiscount = universalDiscount,
-                CombiningDiscountsType = MethodsOfCombiningDiscounts.multiplicative,
+                CombiningDiscountsType = MethodsOfCombiningDiscounts.ADDITIVE,
                 AdditionalCosts = additionalCosts
             };
 

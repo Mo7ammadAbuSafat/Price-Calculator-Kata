@@ -44,30 +44,15 @@ namespace Price_Calculator_Kata.Services
             return PreTaxDiscount == 0 ? null : PreTaxDiscount;
         }
 
-        public double? CalculatePostTaxDiscount(Product product)
-        {
-            double PostTaxDiscount = 0;
-            if (storeRules.universalDiscount?.Type == DiscountType.POST_TAX)
-            {
-                PostTaxDiscount = Math.Round(PostTaxDiscount + CalculateUniversalDiscount(product.Price), 2);
-            }
-            if (storeRules.specialDiscount?.Type == DiscountType.POST_TAX)
-            {
-                PostTaxDiscount = Math.Round(PostTaxDiscount + CalculateSpecialDiscount(product, product.Price), 2);
-            }
-
-            return PostTaxDiscount == 0 ? null : PostTaxDiscount;
-        }
-
         public double CalculateTotalDiscount(Product product)
         {
             double TotalDiscount = 0;
-            if(storeRules.CombiningDiscountsType == MethodsOfCombiningDiscounts.additive)
+            if(storeRules.CombiningDiscountsType == MethodsOfCombiningDiscounts.ADDITIVE)
             {
                 TotalDiscount = Math.Round(CalculateSpecialDiscount(product, product.Price) + CalculateUniversalDiscount(product.Price), 2);
             }
                 
-            if(storeRules.CombiningDiscountsType == MethodsOfCombiningDiscounts.multiplicative)
+            if(storeRules.CombiningDiscountsType == MethodsOfCombiningDiscounts.MULTIPLICATION)
             {
                 double firstDiscount = CalculateUniversalDiscount(product.Price);
                 double priceAfterFirstDiscount = Math.Round(product.Price - firstDiscount, 2);
@@ -81,7 +66,6 @@ namespace Price_Calculator_Kata.Services
         {
             DiscountsBreakdown discountsBreakdown = new()
             {
-                PostTaxDiscount = CalculatePostTaxDiscount(product),
                 PreTaxDiscount = CalculatePreTaxDiscount(product),
                 TotalDiscount = CalculateTotalDiscount(product)
             };
