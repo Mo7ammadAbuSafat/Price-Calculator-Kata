@@ -38,7 +38,7 @@ namespace Price_Calculator_Kata.Services
             }
             if (storeRules.specialDiscount?.Type == DiscountType.PRE_TAX)
             {
-                PreTaxDiscount = Math.Round(PreTaxDiscount + CalculateSpecialDiscount(product, product.Price), 2);
+                PreTaxDiscount = Math.Round(PreTaxDiscount + CalculateSpecialDiscount(product, product.Price - PreTaxDiscount), 2);
             }
 
             return PreTaxDiscount == 0 ? null : PreTaxDiscount;
