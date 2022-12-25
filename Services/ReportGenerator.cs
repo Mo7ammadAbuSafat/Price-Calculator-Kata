@@ -24,9 +24,9 @@ namespace Price_Calculator_Kata.Services
                 reportList.Add($"Pre Tax Discount amount = ${priceBreakdown.PreTaxDiscount},");
             }
 
-            if (priceBreakdown.PostTaxDiscount != null)
+            if (priceBreakdown.TotalDiscount != null)
             {
-                reportList.Add($"Post Tax Discount amount = ${priceBreakdown.PostTaxDiscount},");
+                reportList.Add($"Total Discounts amount = ${priceBreakdown.TotalDiscount},");
             }
 
             if(priceBreakdown.AdditionalCostsResults.Count != 0)
