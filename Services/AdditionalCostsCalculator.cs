@@ -15,7 +15,7 @@ namespace Price_Calculator_Kata.Services
         public AdditionalCostItemResult CalculateAdditionalCostResult(AdditionalCostItem additionalCostItem, Product product)
         {
             AdditionalCostItemResult additionalCostResult;
-            if (additionalCostItem.Type == CostType.Percentage)
+            if (additionalCostItem.Type == TypeValue.PERCENTAGE)
             {
                 additionalCostResult = new()
                 {

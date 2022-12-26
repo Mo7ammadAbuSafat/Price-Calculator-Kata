@@ -29,12 +29,18 @@ namespace Price_Calculator_Kata
                 Type = DiscountType.PRE_TAX
             };
 
+            Cap capToApply = new()
+            {
+                Value = 15,
+                Type = TypeValue.ABSOLUTE_VALUE
+            };
+
             List<AdditionalCostItem> additionalCosts = new List<AdditionalCostItem>();
             AdditionalCostItem additionalCostItem = new()
             {
                 Name = "Shipping",
                 Cost = 12,
-                Type = CostType.AbsoluteValue
+                Type = TypeValue.ABSOLUTE_VALUE
             };
             additionalCosts.Add(additionalCostItem);
 
@@ -43,6 +49,7 @@ namespace Price_Calculator_Kata
                 TaxPercentage = .2,
                 specialDiscount = specialDiscount,
                 universalDiscount = universalDiscount,
+                cap = capToApply,
                 CombiningDiscountsType = MethodsOfCombiningDiscounts.ADDITIVE,
                 AdditionalCosts = additionalCosts
             };

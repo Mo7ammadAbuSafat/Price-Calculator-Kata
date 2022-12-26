@@ -62,8 +62,48 @@ namespace Price_Calculator_Kata.Services
             return TotalDiscount;   
         }
 
+        
+
+        public double? ApplyCapToDiscountAmount(double cap, double? discountAmount)
+        {
+
+            if (discountAmount == null)
+            {
+                return null;
+            }
+
+            if(discountAmount > cap)
+            {
+                return cap;
+            }
+            return discountAmount;
+        }
+
+        public double? CalculateCapAmount(Product product)
+        {
+            if (storeRules.cap == null)
+            {
+                return null;
+            }
+            if (storeRules.cap.Type == TypeValue.PERCENTAGE)
+            {
+                return Math.Round(product.Price * storeRules.cap.Value, 2);
+            }
+            return storeRules.cap.Value;
+        }
+
         public DiscountsBreakdown CalculateDiscounts(Product product)
         {
+            double? PreTaxDiscount = CalculatePreTaxDiscount(product);
+            double TotalDiscount = CalculateTotalDiscount(product);
+            double? capAmount = CalculateCapAmount(product);
+            if (capAmount != null)
+            {
+                PreTaxDiscount = ApplyCapToDiscountAmount((double)capAmount, PreTaxDiscount);
+                TotalDiscount = (double)ApplyCapToDiscountAmount((double)capAmount, TotalDiscount);
+            }
+            
+
             DiscountsBreakdown discountsBreakdown = new()
             {
                 PreTaxDiscount = CalculatePreTaxDiscount(product),
