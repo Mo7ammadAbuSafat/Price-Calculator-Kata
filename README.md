@@ -7,7 +7,7 @@
 - **Requirements should be implemented in order** - The sequence of requirements is simulating the evolution of customers' expectations over a prolonged period of time, as customer occasionally gets “bright ideas” and hand them over to developers. Implementing requirements all at once or out of order would look like real-time was flowing back and forth.
     - **Mark each task with the requirement label** - Include the requirement label into each commit message so that the evolution of the product can be observed later. Each requirement begins with a label in capital letters.
 - **Pretend you don’t know the requirements in advance** - Even though you can read all the requirements right away, try thinking of those beyond the one you’re currently solving as yet unknown. Don’t overengineer the current solution because you have anticipated a future requirement.
-- **~~Write unit test for each part~~**
+
 
 ## **The kata**
 
