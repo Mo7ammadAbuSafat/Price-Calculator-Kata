@@ -10,6 +10,6 @@ namespace Price_Calculator_Kata.Models
     public class Cap
     {
         public double Value { get; set; }
-        public TypeValue Type { get; set; }
+        public RuleType Type { get; set; }
     }
 }

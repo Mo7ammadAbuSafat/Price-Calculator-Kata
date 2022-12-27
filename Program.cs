@@ -32,7 +32,7 @@ namespace Price_Calculator_Kata
             Cap capToApply = new()
             {
                 Value = 15,
-                Type = TypeValue.ABSOLUTE_VALUE
+                Type = RuleType.ABSOLUTE_VALUE
             };
 
             List<AdditionalCostItem> additionalCosts = new List<AdditionalCostItem>();
@@ -40,7 +40,7 @@ namespace Price_Calculator_Kata
             {
                 Name = "Shipping",
                 Cost = 12,
-                Type = TypeValue.ABSOLUTE_VALUE
+                Type = RuleType.ABSOLUTE_VALUE
             };
             additionalCosts.Add(additionalCostItem);
 
@@ -51,6 +51,7 @@ namespace Price_Calculator_Kata
                 universalDiscount = universalDiscount,
                 cap = capToApply,
                 CombiningDiscountsType = MethodsOfCombiningDiscounts.ADDITIVE,
+                Currecny = "USD",
                 AdditionalCosts = additionalCosts
             };
 
@@ -67,7 +68,7 @@ namespace Price_Calculator_Kata
 
             IPriceCalculator priceCalculator = new PriceCalculator(discountCalculator, taxCalculator, additionalCostsCalculator);
 
-            IReportGenerator reportGenerator = new ReportGenerator(priceCalculator);
+            IReportGenerator reportGenerator = new ReportGenerator(priceCalculator , storeRules);
 
             Console.WriteLine(reportGenerator.reportPrice(product));
 

@@ -25,16 +25,28 @@ namespace Price_Calculator_Kata.Services
         {
             foreach (var CostItem in AdditionalCosts)
             {
-                if(CostItem.Type== TypeValue.PERCENTAGE)
+                if(CostItem.Type== RuleType.PERCENTAGE)
                 {
                     CheckPercentageValidation(CostItem.Cost, CostItem.Name);
                 }
-                else if(CostItem.Type == TypeValue.ABSOLUTE_VALUE)
+                else if(CostItem.Type == RuleType.ABSOLUTE_VALUE)
                 {
 
                 }
             }
 
+        }
+
+        public void CheckCurrenyFormat(string currency)
+        {
+            if(currency.Length != 3)
+            {
+                throw new ArgumentException("Currncy must be three letters ");
+            }
+            if(!currency.All(c => char.IsUpper(c)))
+            {
+                throw new ArgumentException("Currncy must be Capital letters ");
+            }
         }
 
         public void CheckPriceValidation(double price)
@@ -71,6 +83,7 @@ namespace Price_Calculator_Kata.Services
                 CheckPercentageValidation(storeRules.universalDiscount.Percentage, "Universal Discount");
             }
             CheckAdditionalCostsValidation(storeRules.AdditionalCosts);
+            CheckCurrenyFormat(storeRules.Currecny);
             
         }
     }

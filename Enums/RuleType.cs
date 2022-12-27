@@ -1,6 +1,6 @@
 ﻿namespace Price_Calculator_Kata.Enums
 {
-    public enum TypeValue
+    public enum RuleType
     {
         PERCENTAGE,
         ABSOLUTE_VALUE
