@@ -6,7 +6,7 @@ namespace Price_Calculator_Kata.Models
     {
         public string Name { get; set; }
         public double Cost { get; set; }
-        public CostType Type { get; set; }
+        public TypeValue Type { get; set; }
 
     }
 }

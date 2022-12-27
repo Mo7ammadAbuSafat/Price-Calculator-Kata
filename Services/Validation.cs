@@ -25,11 +25,11 @@ namespace Price_Calculator_Kata.Services
         {
             foreach (var CostItem in AdditionalCosts)
             {
-                if(CostItem.Type== CostType.Percentage)
+                if(CostItem.Type== TypeValue.PERCENTAGE)
                 {
                     CheckPercentageValidation(CostItem.Cost, CostItem.Name);
                 }
-                else if(CostItem.Type == CostType.AbsoluteValue)
+                else if(CostItem.Type == TypeValue.ABSOLUTE_VALUE)
                 {
 
                 }
