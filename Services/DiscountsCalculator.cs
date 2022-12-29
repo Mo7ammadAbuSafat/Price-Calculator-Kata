@@ -17,7 +17,7 @@ namespace Price_Calculator_Kata.Services
             if (storeRules.specialDiscount == null) return 0;
             if (product.UPC == storeRules.specialDiscount.UPC)
             {
-                return Math.Round(storeRules.specialDiscount.Percentage * price, 2);
+                return Rounding.ForCalculation(storeRules.specialDiscount.Percentage * price);
             }
             else return 0;
         }
@@ -26,7 +26,7 @@ namespace Price_Calculator_Kata.Services
         {
             if (storeRules.universalDiscount == null)
                 return 0;
-            return Math.Round(storeRules.universalDiscount.Percentage * price, 2);
+            return Rounding.ForCalculation(storeRules.universalDiscount.Percentage * price);
         }
 
         public double? CalculatePreTaxDiscount(Product product)
@@ -34,11 +34,11 @@ namespace Price_Calculator_Kata.Services
             double PreTaxDiscount = 0;
             if (storeRules.universalDiscount?.Type == DiscountType.PRE_TAX)
             {
-                PreTaxDiscount = Math.Round(PreTaxDiscount + CalculateUniversalDiscount(product.Price), 2);
+                PreTaxDiscount = Rounding.ForCalculation(PreTaxDiscount + CalculateUniversalDiscount(product.Price));
             }
             if (storeRules.specialDiscount?.Type == DiscountType.PRE_TAX)
             {
-                PreTaxDiscount = Math.Round(PreTaxDiscount + CalculateSpecialDiscount(product, product.Price - PreTaxDiscount), 2);
+                PreTaxDiscount = Rounding.ForCalculation(PreTaxDiscount + CalculateSpecialDiscount(product, product.Price - PreTaxDiscount));
             }
 
             return PreTaxDiscount == 0 ? null : PreTaxDiscount;
@@ -49,15 +49,15 @@ namespace Price_Calculator_Kata.Services
             double TotalDiscount = 0;
             if(storeRules.CombiningDiscountsType == MethodsOfCombiningDiscounts.ADDITIVE)
             {
-                TotalDiscount = Math.Round(CalculateSpecialDiscount(product, product.Price) + CalculateUniversalDiscount(product.Price), 2);
+                TotalDiscount = Rounding.ForCalculation(CalculateSpecialDiscount(product, product.Price) + CalculateUniversalDiscount(product.Price));
             }
                 
             if(storeRules.CombiningDiscountsType == MethodsOfCombiningDiscounts.MULTIPLICATION)
             {
                 double firstDiscount = CalculateUniversalDiscount(product.Price);
-                double priceAfterFirstDiscount = Math.Round(product.Price - firstDiscount, 2);
+                double priceAfterFirstDiscount = Rounding.ForCalculation(product.Price - firstDiscount);
                 double secoundDiscount = CalculateSpecialDiscount(product, priceAfterFirstDiscount);
-                TotalDiscount = Math.Round(firstDiscount + secoundDiscount, 2);
+                TotalDiscount = Rounding.ForCalculation(firstDiscount + secoundDiscount);
             }
             return TotalDiscount;   
         }
