@@ -13,7 +13,7 @@ namespace Price_Calculator_Kata.Services
     
         public double CalculateTax(double productPrice)
         {
-            return Math.Round(storeRules.TaxPercentage * productPrice, 2);
+            return Rounding.ForCalculation(storeRules.TaxPercentage * productPrice);
         }
     }
 }

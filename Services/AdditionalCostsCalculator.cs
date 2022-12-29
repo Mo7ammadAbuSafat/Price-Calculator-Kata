@@ -20,7 +20,7 @@ namespace Price_Calculator_Kata.Services
                 additionalCostResult = new()
                 {
                     Name = additionalCostItem.Name,
-                    Cost = Math.Round(additionalCostItem.Cost * product.Price, 2),
+                    Cost = Rounding.ForCalculation(additionalCostItem.Cost * product.Price),
                 };
             }
             else
@@ -39,7 +39,7 @@ namespace Price_Calculator_Kata.Services
             double totalCost = 0;
             foreach (var additionalCostResult in listCosts)
             {
-                totalCost = Math.Round(totalCost + additionalCostResult.Cost, 2);
+                totalCost = Rounding.ForCalculation(totalCost + additionalCostResult.Cost);
             }
             return totalCost;
         }

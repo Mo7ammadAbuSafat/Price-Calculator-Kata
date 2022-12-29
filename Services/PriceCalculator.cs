@@ -23,13 +23,13 @@ namespace Price_Calculator_Kata.Services
 
             double price = product.Price;
             if(discountsBreakdown.PreTaxDiscount!=null)
-                price = Math.Round(price - (double)discountsBreakdown.PreTaxDiscount, 2);
+                price = Rounding.ForCalculation(price - (double)discountsBreakdown.PreTaxDiscount);
             double TaxAmount = taxCalculator.CalculateTax(price);
 
             AdditionalCostsBreakdown additionalCostsBreakdown = additionalCostsCalculator.CalculateAdditionalCosts(product);
             double totalAdditionalCosts = (double)additionalCostsBreakdown.totalCost;
 
-            double totalPrice = Math.Round(product.Price + TaxAmount - discountsBreakdown.TotalDiscount + totalAdditionalCosts, 2);
+            double totalPrice = Rounding.ForCalculation(product.Price + TaxAmount - discountsBreakdown.TotalDiscount + totalAdditionalCosts);
             PriceBreakdown priceBreakdown = new()
             {
                 ProductPrice = product.Price,

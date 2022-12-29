@@ -22,29 +22,29 @@ namespace Price_Calculator_Kata.Services
 
             List<string> reportList = new();
 
-            reportList.Add($"Tax amount = {priceBreakdown.Tax} {currency},");
+            reportList.Add($"Tax amount = {Rounding.ForReport(priceBreakdown.Tax)} {currency},");
 
             if (priceBreakdown.PreTaxDiscount != null)
             {
-                reportList.Add($"Pre Tax Discount amount = {priceBreakdown.PreTaxDiscount} {currency},");
+                reportList.Add($"Pre Tax Discount amount = {Rounding.ForReport((double)priceBreakdown.PreTaxDiscount)} {currency},");
             }
 
             if (priceBreakdown.TotalDiscount != null)
             {
-                reportList.Add($"Total Discounts amount = {priceBreakdown.TotalDiscount} {currency},");
+                reportList.Add($"Total Discounts amount = {Rounding.ForReport((double)priceBreakdown.TotalDiscount)} {currency},");
             }
 
             if(priceBreakdown.AdditionalCostsResults.Count != 0)
             {
                 foreach (var cost in priceBreakdown.AdditionalCostsResults)
                 {
-                    reportList.Add($"{cost.Name} Cost = {cost.Cost} {currency},");
+                    reportList.Add($"{cost.Name} Cost = {Rounding.ForReport(cost.Cost)} {currency},");
                 }
             }
 
-            reportList.Add($"Price before = {priceBreakdown.ProductPrice} {currency},");
+            reportList.Add($"Price before = {Rounding.ForReport(priceBreakdown.ProductPrice)} {currency},");
 
-            reportList.Add($"price after = {priceBreakdown.FinalPrice} {currency}");
+            reportList.Add($"price after = {Rounding.ForReport(priceBreakdown.FinalPrice)} {currency}");
 
             return string.Join(Environment.NewLine, reportList.ToArray());
         }
