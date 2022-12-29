@@ -85,7 +85,7 @@ namespace Price_Calculator_Kata.Services
             {
                 return null;
             }
-            if (storeRules.cap.Type == TypeValue.PERCENTAGE)
+            if (storeRules.cap.Type == RuleType.PERCENTAGE)
             {
                 return Math.Round(product.Price * storeRules.cap.Value, 2);
             }

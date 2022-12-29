@@ -1,5 +1,6 @@
 ﻿using Price_Calculator_Kata.Enums;
 using Price_Calculator_Kata.Models;
+using System.Text.RegularExpressions;
 
 namespace Price_Calculator_Kata.Services
 {
@@ -25,16 +26,26 @@ namespace Price_Calculator_Kata.Services
         {
             foreach (var CostItem in AdditionalCosts)
             {
-                if(CostItem.Type== TypeValue.PERCENTAGE)
+                if(CostItem.Type== RuleType.PERCENTAGE)
                 {
                     CheckPercentageValidation(CostItem.Cost, CostItem.Name);
                 }
-                else if(CostItem.Type == TypeValue.ABSOLUTE_VALUE)
+                else if(CostItem.Type == RuleType.ABSOLUTE_VALUE)
                 {
 
                 }
             }
 
+        }
+
+        public void CheckCurrenyFormat(string currency)
+        {
+            string pattern = "^[A-Z]{3}$";
+            Regex regex = new Regex(pattern);
+            if (!regex.Match(currency).Success)       
+            {
+                throw new ArgumentException("Currncy must be three Capital letters");
+            }
         }
 
         public void CheckPriceValidation(double price)
@@ -71,6 +82,7 @@ namespace Price_Calculator_Kata.Services
                 CheckPercentageValidation(storeRules.universalDiscount.Percentage, "Universal Discount");
             }
             CheckAdditionalCostsValidation(storeRules.AdditionalCosts);
+            CheckCurrenyFormat(storeRules.Currecny);
             
         }
     }

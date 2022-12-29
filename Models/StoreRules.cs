@@ -15,6 +15,8 @@ namespace Price_Calculator_Kata.Models
 
         public MethodsOfCombiningDiscounts CombiningDiscountsType { get; set; }
 
+        public String Currecny { get; set; }
+
         public List<AdditionalCostItem> AdditionalCosts { get; set; }
     }
 }
