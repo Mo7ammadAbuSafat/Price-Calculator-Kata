@@ -1,5 +1,6 @@
 ﻿using Price_Calculator_Kata.Enums;
 using Price_Calculator_Kata.Models;
+using System.Text.RegularExpressions;
 
 namespace Price_Calculator_Kata.Services
 {
@@ -39,13 +40,11 @@ namespace Price_Calculator_Kata.Services
 
         public void CheckCurrenyFormat(string currency)
         {
-            if(currency.Length != 3)
+            string pattern = "^[A-Z]{3}$";
+            Regex regex = new Regex(pattern);
+            if (!regex.Match(currency).Success)       
             {
-                throw new ArgumentException("Currncy must be three letters ");
-            }
-            if(!currency.All(c => char.IsUpper(c)))
-            {
-                throw new ArgumentException("Currncy must be Capital letters ");
+                throw new ArgumentException("Currncy must be three Capital letters");
             }
         }
 
